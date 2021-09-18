@@ -18,7 +18,7 @@
     CompanyName       = 'ElasticIT'
 
     # Copyright statement for this module
-    Copyright         = '(c) 2021 Anonymous. All rights reserved.'
+    Copyright         = '(c) 2021 ElasticIT. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'A module for exporting NinjaRMM device info and importing it to Microsoft Endpoint Manager for Autopilot.'
