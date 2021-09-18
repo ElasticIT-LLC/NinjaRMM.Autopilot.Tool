@@ -35,11 +35,13 @@ function Get-NinjaRMMAccessToken {
             client_secret = $ClientSecret
             scope         = "monitoring management control"
         }
-        $NinjaRMMAccessToken = Invoke-RestMethod -Method Post -Uri 'https://app.ninjarmm.com/oauth/token' -Body $Body | Select-Object -ExpandProperty access_token
+        $AccessToken = Invoke-RestMethod -Method Post -Uri 'https://app.ninjarmm.com/oauth/token' -Body $Body | Select-Object -ExpandProperty access_token | ConvertTo-SecureString -AsPlainText -Force
     }
     catch {
         Write-Error -Message "Error authenticating with the NinjaRMM API."
     }
 
-    return $NinjaRMMAccessToken
+    return $AccessToken
 }
+
+#Get-NinjaRMMAccessToken -ClientID "T-LAty1ali2G6DPRphYdEncxCXU" -ClientSecret "z-kyWSC3cceiPHUR2Wqx5BZpM5wONq-yh2mdcP5idPs4KanlE2A47g"
