@@ -1,4 +1,4 @@
-# NinjaRMM.Autopilot
+# NinjaRMM.Autopilot.Tool
 
 ## Summary
 
