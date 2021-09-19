@@ -34,5 +34,3 @@ function Test-NinjaRMMOrganization {
     
     return $ValidOrganizationID
 }
-
-#Test-NinjaRMMOrganization -AccessToken $AccessToken -OrganizationID 1

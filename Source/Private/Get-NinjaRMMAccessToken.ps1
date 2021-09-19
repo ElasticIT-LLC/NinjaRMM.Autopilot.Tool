@@ -43,5 +43,3 @@ function Get-NinjaRMMAccessToken {
 
     return $AccessToken
 }
-
-#Get-NinjaRMMAccessToken -ClientID "T-LAty1ali2G6DPRphYdEncxCXU" -ClientSecret "z-kyWSC3cceiPHUR2Wqx5BZpM5wONq-yh2mdcP5idPs4KanlE2A47g"
