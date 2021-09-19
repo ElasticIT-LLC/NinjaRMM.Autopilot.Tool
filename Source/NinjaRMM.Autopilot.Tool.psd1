@@ -41,7 +41,7 @@
             # LicenseUri = ''
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            # ProjectUri = 'https://github.com/ElasticIT-LLC/NinjaRMM.Autopilot.Tool'
 
             # A URL to an icon representing this module.
             # IconUri = ''
@@ -99,7 +99,7 @@
     # FileList = @()
 
     # HelpInfo URI of this module
-    # HelpInfoURI = ''
+    # HelpInfoURI = 'https://github.com/ElasticIT-LLC/NinjaRMM.Autopilot.Tool/issues'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
