@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    Short description
+    This function exports devices from NinjaRMM and imports them to autopilot.
 .DESCRIPTION
     Long description
 .EXAMPLE
-    PS C:\> <example usage>
+    Import-NinjaRMMDevicesToAutopilot
     Explanation of what the example does
 .INPUTS
     Inputs (if any)
@@ -51,7 +51,7 @@ function Import-NinjaRMMDevicesToAutopilot {
                     }
                 )
             }
-            Write-Host "$($Devices.Count) devices are ready for Autopilot import"
+            Write-Host "$($Devices.Count) device(s) are ready for Autopilot import!"
         }
     }
     catch {
