@@ -64,7 +64,7 @@ function Import-NinjaRMMDevicesToAutopilot {
             # Report statistics
             $success = 0
             $failure = 0
-            $Results.DevicesStatus | % {
+            $Results.DevicesStatus | ForEach-Object {
                 if ($_.ErrorCode -eq 0) {
                     $success++
                 }

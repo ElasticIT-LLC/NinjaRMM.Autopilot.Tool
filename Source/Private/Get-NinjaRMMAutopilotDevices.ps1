@@ -40,12 +40,14 @@ function Get-NinjaRMMAutopilotDevices {
     # Cleanup raw data and put in to a usable hashtable
     $Devices = @()
     foreach ($RawDevice in $RawDevices) {
-        $Devices += @(
-            [pscustomobject]@{
-                DeviceID = $RawDevice.deviceId;
-                AutopilotHWID = $RawDevice.fields.autopilotHwid;
-            }
-        )
+        if ($RawDevice.fields.autopilotHwid) {
+            $Devices += @(
+                [pscustomobject]@{
+                    DeviceID = $RawDevice.deviceId;
+                    AutopilotHWID = $RawDevice.fields.autopilotHwid;
+                }
+            )
+        }
     }
 
     return $Devices
