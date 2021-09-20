@@ -26,7 +26,11 @@ function Import-NinjaRMMDevicesToAutopilot {
 
         [Parameter(Mandatory)]
         [int]
-        $OrganizationID
+        $OrganizationID,
+
+        [Parameter(Mandatory)]
+        [string]
+        $CustomerID
     )
     
     try {
@@ -43,20 +47,43 @@ function Import-NinjaRMMDevicesToAutopilot {
             $Devices = @()
             foreach ($AutopilotDevice in $AutopilotDevices) {
                 $DeviceSerial = Get-NinjaRMMDeviceSerial -AccessToken $NinjaRMMAccessToken -DeviceID $AutopilotDevice.DeviceID
-                $Devices += @(
-                    [pscustomobject]@{
-                        DeviceID = $AutopilotDevice.DeviceID;
-                        Serial = $DeviceSerial;
-                        AutopilotHWID = $AutopilotDevice.AutopilotHWID;
-                    }
-                )
+                
+                $Device = New-Object -TypeName Microsoft.Store.PartnerCenter.PowerShell.Models.DevicesDeployment.PSDevice
+                $Device.HardwareHash = $AutopilotDevice.AutopilotHWID
+                $Device.SerialNumber = $DeviceSerial
+                $Devices += $Device
             }
             Write-Host "$($Devices.Count) device(s) are ready for Autopilot import!"
+
+            Write-Host "Connecting to Partner Center..."
+            Connect-PartnerCenter -UseDeviceAuthentication
+
+            Write-Host "Creating device batch..."
+            $Results = New-PartnerCustomerDeviceBatch -BatchId "NinjaRMM.Autopilot.Tool_$(Get-Date -Format FileDateTimeUniversal)" -CustomerID $CustomerID -Devices $Devices
+
+            # Report statistics
+            $success = 0
+            $failure = 0
+            $Results.DevicesStatus | % {
+                if ($_.ErrorCode -eq 0) {
+                    $success++
+                }
+                else
+                {
+                    $failure++
+                }
+            }
+            Write-Host "Batch processed."
+            Write-Host "Devices successfully added = $success"
+            Write-Host "Devices not added due to errors = $failure"
+
+            # Return the list of results
+            
         }
     }
     catch {
         Write-Error -Message "An unknown error occurred."
     }
 
-    return $Devices
+    return $Results.DevicesStatus
 }

@@ -73,8 +73,7 @@
 
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules = @(
-        @{ ModuleName = "WindowsAutoPilotIntune"; ModuleVersion = "5.0" },
-        @{ ModuleName = "Microsoft.Graph.Intune"; ModuleVersion = "6.1907.1.0" }
+        @{ ModuleName = "PartnerCenter"; ModuleVersion = "3.0.10" }
     )
 
     # Assemblies that must be loaded prior to importing this module
