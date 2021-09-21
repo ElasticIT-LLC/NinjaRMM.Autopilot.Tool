@@ -34,27 +34,8 @@ function Import-NinjaRMMDevicesToAutopilot {
     )
     
     try {
-        Write-Host "Getting NinjaRMM API access token..."
-        $NinjaRMMAccessToken = Get-NinjaRMMAccessToken -ClientID $ClientID -ClientSecret $ClientSecret
-
-        Write-Host "Checking if NinjaRMM organization ID is valid..."
-        if ((Test-NinjaRMMOrganization -AccessToken $NinjaRMMAccessToken -OrganizationID $OrganizationID) -eq $True) {
+            $Devices = Get-NinjaRMMAutopilotDevices -ClientID $ClientID -ClientSecret $ClientSecret -OrganizationID $OrganizationID
             
-            Write-Host "Getting NinjaRMM devices with an Autopilot HWID..."
-            $AutopilotDevices = Get-NinjaRMMAutopilotDevices -AccessToken $NinjaRMMAccessToken -OrganizationID $OrganizationID
-
-            Write-Host "Getting NinjaRMM device serials..."
-            $Devices = @()
-            foreach ($AutopilotDevice in $AutopilotDevices) {
-                $DeviceSerial = Get-NinjaRMMDeviceSerial -AccessToken $NinjaRMMAccessToken -DeviceID $AutopilotDevice.DeviceID
-                
-                $Device = New-Object -TypeName Microsoft.Store.PartnerCenter.PowerShell.Models.DevicesDeployment.PSDevice
-                $Device.HardwareHash = $AutopilotDevice.AutopilotHWID
-                $Device.SerialNumber = $DeviceSerial
-                $Devices += $Device
-            }
-            Write-Host "$($Devices.Count) device(s) are ready for Autopilot import!"
-
             Write-Host "Connecting to Partner Center..."
             Connect-PartnerCenter -UseDeviceAuthentication
 
@@ -78,8 +59,6 @@ function Import-NinjaRMMDevicesToAutopilot {
             Write-Host "Devices not added due to errors = $failure"
 
             # Return the list of results
-            
-        }
     }
     catch {
         Write-Error -Message "An unknown error occurred."

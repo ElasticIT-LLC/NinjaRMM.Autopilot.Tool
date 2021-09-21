@@ -8,16 +8,16 @@
 .PARAMETER OrganizationID
     Int - The ID of the organization in NinjaRMM.
 .EXAMPLE
-    Get-NinjaRMMAutopilotDevices -AccessToken $AccessToken -OrganizationID 1
+    Get-NinjaRMMDevicesWithAutopilotField -AccessToken $AccessToken -OrganizationID 1
     DeviceID AutopilotHWID
     -------- -------------
            1 Q0HjAgEAHAAAA123AfwRhSgAACgBWB7FKX6OzKPA...
 .OUTPUTS
-    Get-NinjaRMMAutopilotDevices returns a list of the deviceID and autopilot HWID associated with the device.
+    Get-NinjaRMMDevicesWithAutopilotField returns a list of the deviceID and autopilot HWID associated with the device.
 .NOTES
     For more information on this API call, see: https://app.ninjarmm.com/apidocs/?links.active=core#/devices/getCustomFieldsReport
 #>
-function Get-NinjaRMMAutopilotDevices {
+function Get-NinjaRMMDevicesWithAutopilotField {
     
     [CmdletBinding()]
     param(
