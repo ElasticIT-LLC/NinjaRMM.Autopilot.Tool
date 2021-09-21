@@ -5,7 +5,6 @@
     A list of autopilot-ready devices will be exported from NinjaRMM and uploaded to the customer tenant.
 .EXAMPLE
     Import-NinjaRMMDevicesToAutopilot
-    Explanation of what the example does
 .PARAMETER ClientID
     The application client ID from the NinjaRMM dashboard.
 .PARAMETER ClientSecret
@@ -14,8 +13,6 @@
     Int - The ID of the organization in NinjaRMM.
 .PARAMETER CustomerID
     String - The ID of the customer tenant from Microsoft Partner Center.
-.NOTES
-    General notes
 #>
 function Import-NinjaRMMDevicesToAutopilot {
     [CmdletBinding()]
@@ -38,35 +35,32 @@ function Import-NinjaRMMDevicesToAutopilot {
     )
     
     try {
-            $Devices = Get-NinjaRMMAutopilotDevices -ClientID $ClientID -ClientSecret $ClientSecret -OrganizationID $OrganizationID
+        $Devices = Get-NinjaRMMAutopilotDevices -ClientID $ClientID -ClientSecret $ClientSecret -OrganizationID $OrganizationID
 
-            Write-Host "Connecting to Partner Center..."
-            Connect-PartnerCenter
+        Write-Host "Connecting to Partner Center..."
+        Connect-PartnerCenter
 
-            Write-Host "Creating device batch..."
-            $Results = New-PartnerCustomerDeviceBatch -BatchId "NinjaRMM.Autopilot.Tool_$(Get-Date -Format FileDateTimeUniversal)" -CustomerID $CustomerID -Devices $Devices
+        Write-Host "Creating device batch..."
+        $Results = New-PartnerCustomerDeviceBatch -BatchId "NinjaRMM.Autopilot.Tool_$(Get-Date -Format FileDateTimeUniversal)" -CustomerID $CustomerID -Devices $Devices
 
-            # Report statistics
-            $success = 0
-            $failure = 0
-            $Results.DevicesStatus | ForEach-Object {
-                if ($_.ErrorCode -eq 0) {
-                    $success++
-                }
-                else
-                {
-                    $failure++
-                }
+        $CountSucceeded = 0
+        $CountAlreadyEnrolled = 0
+        $CountUnknownError = 0
+        foreach ($Result in $Results.DevicesStatus) {
+            switch ($Result.ErrorCode)
+            {
+                0 { $CountSucceeded++ }
+                806 { $CountAlreadyEnrolled++ }
+                Default { $CountUnknownError++ }
             }
-            Write-Host "Batch processed."
-            Write-Host "Devices successfully added = $success"
-            Write-Host "Devices not added due to errors = $failure"
-
-            # Return the list of results
+        }
+        Write-Host "Device(s) succeeded................: $($CountSucceeded)"
+        Write-Host "Device(s) already enrolled.........: $($CountAlreadyEnrolled)"
+        Write-Host "Device(s) failed with unknown error: $($CountUnknownError)"
     }
     catch {
         Write-Error -Message "An unknown error occurred."
     }
-
-    return $Results.DevicesStatus
 }
+
+Import-NinjaRMMDevicesToAutopilot -ClientID "Ahkphvtv5plpHXtP3bjY8c-tzpk" -ClientSecret "wbGBOfH-_aAH2jZTm5lARseJ2V5sVkMbMcuEFvNrC8LTc07s5KhQkg" -OrganizationID 2 -CustomerID "fe55f06e-9f48-4dfe-af8b-3bdefdf54f81"
