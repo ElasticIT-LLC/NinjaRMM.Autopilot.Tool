@@ -62,5 +62,3 @@ function Import-NinjaRMMDevicesToAutopilot {
         Write-Error -Message "An unknown error occurred."
     }
 }
-
-Import-NinjaRMMDevicesToAutopilot -ClientID "Ahkphvtv5plpHXtP3bjY8c-tzpk" -ClientSecret "wbGBOfH-_aAH2jZTm5lARseJ2V5sVkMbMcuEFvNrC8LTc07s5KhQkg" -OrganizationID 2 -CustomerID "fe55f06e-9f48-4dfe-af8b-3bdefdf54f81"
