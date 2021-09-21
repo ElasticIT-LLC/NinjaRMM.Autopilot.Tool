@@ -2,14 +2,18 @@
 .SYNOPSIS
     This function exports devices from NinjaRMM and imports them to autopilot.
 .DESCRIPTION
-    Long description
+    A list of autopilot-ready devices will be exported from NinjaRMM and uploaded to the customer tenant.
 .EXAMPLE
     Import-NinjaRMMDevicesToAutopilot
     Explanation of what the example does
-.INPUTS
-    Inputs (if any)
-.OUTPUTS
-    Output (if any)
+.PARAMETER ClientID
+    The application client ID from the NinjaRMM dashboard.
+.PARAMETER ClientSecret
+    The generated client secret from the NinjaRMM dashboard.
+.PARAMETER OrganizationID
+    Int - The ID of the organization in NinjaRMM.
+.PARAMETER CustomerID
+    String - The ID of the customer tenant from Microsoft Partner Center.
 .NOTES
     General notes
 #>
@@ -35,9 +39,9 @@ function Import-NinjaRMMDevicesToAutopilot {
     
     try {
             $Devices = Get-NinjaRMMAutopilotDevices -ClientID $ClientID -ClientSecret $ClientSecret -OrganizationID $OrganizationID
-            
+
             Write-Host "Connecting to Partner Center..."
-            Connect-PartnerCenter -UseDeviceAuthentication
+            Connect-PartnerCenter
 
             Write-Host "Creating device batch..."
             $Results = New-PartnerCustomerDeviceBatch -BatchId "NinjaRMM.Autopilot.Tool_$(Get-Date -Format FileDateTimeUniversal)" -CustomerID $CustomerID -Devices $Devices

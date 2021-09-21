@@ -1,3 +1,25 @@
+<#
+.SYNOPSIS
+    Fetches a list of devices that are ready for autopilot from NinjaRMM.
+.EXAMPLE
+    Get-NinjaRMMAutopilotDevices
+    DeviceId SerialNumber                     ProductKey ModelName OemManufacturerName UploadedDate
+    -------- ------------                     ---------- --------- ------------------- ------------
+             CND8370M1D                                                                1/1/0001 12:00:00 AM
+
+.PARAMETER ClientID
+    The application client ID from the NinjaRMM dashboard.
+.PARAMETER ClientSecret
+    The generated client secret from the NinjaRMM dashboard.
+.PARAMETER OrganizationID
+    Int - The ID of the organization in NinjaRMM.
+.PARAMETER AsCsv
+    Switch - Exports the device list to a CSV file in the current directory.
+.OUTPUTS
+    Get-NinjaRMMAutopilotDevices returns a hashtable of devices ready for Autopilot import. Optionally, -AsCsv can be used to return a CSV file of the device listing.
+.NOTES
+    General notes
+#>
 function Get-NinjaRMMAutopilotDevices {
     [CmdletBinding()]
     param (
